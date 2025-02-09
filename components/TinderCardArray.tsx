@@ -29,7 +29,6 @@ const TinderCardArray = ({num, setNum} : TinderCardArrayProps) => {
     fetchData();
     console.log(eventsArray);
   }, [eventsArray])
-
   return (
     <div>
       { num < eventsArray.length ? (    
