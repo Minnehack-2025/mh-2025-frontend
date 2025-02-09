@@ -1,24 +1,13 @@
 "use client"
 
 import type React from "react"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { useState } from "react"
-import TinderCardArray from "@/components/TinderCardList"
+import TinderCardList from "@/components/TinderCardList"
 
-interface EventDashboardProps {
-  // onCreateClick: () => void
-  onEventClick: () => void
-}
-// interface Event {
-//   id: string
-//   title: string
-//   time: string
-//   location: string
-//   description: string
-//   status: "posted" | "draft" | "archive"
-// }
 
 interface EventDashboardProps {
   onCreateClick: () => void
@@ -26,52 +15,8 @@ interface EventDashboardProps {
 
 
 export function EventLists({ onCreateClick }: Readonly<EventDashboardProps>) {
-  // const [searchQuery, setSearchQuery] = useState("")
-  const [activeTab, setActiveTab] = useState<"posted" | "draft" | "archive">("posted")
-  // const [events, setEvents] = useState<Event[]>([])
-  // const [filteredEvents, setFilteredEvents] = useState<Event[]>([])
-
-  // useEffect(() => {
-  //   // Simulating API call to fetch events
-  //   const fetchEvents = async () => {
-  //     const mockEvents: Event[] = [
-  //       {
-  //         id: "1",
-  //         title: "Tech Conference",
-  //         time: "Sat, Feb 8 · 1:00 PM",
-  //         location: "San Francisco",
-  //         description: "Annual tech conference",
-  //         status: "posted",
-  //       },
-  //       {
-  //         id: "2",
-  //         title: "Art Exhibition",
-  //         time: "Sun, Feb 9 · 2:00 PM",
-  //         location: "New York",
-  //         description: "Modern art showcase",
-  //         status: "draft",
-  //       },
-  //       {
-  //         id: "3",
-  //         title: "Music Festival",
-  //         time: "Fri, Feb 14 · 6:00 PM",
-  //         location: "Los Angeles",
-  //         description: "Three-day music event",
-  //         status: "archive",
-  //       },
-  //     ]
-  //     setEvents(mockEvents)
-  //   }
-
-  //   fetchEvents()
-  // }, [])
-
-  // useEffect(() => {
-  //   const filtered = events.filter(
-  //     (event) => event.status === activeTab && event.title.toLowerCase().includes(searchQuery.toLowerCase()),
-  //   )
-  //   setFilteredEvents(filtered)
-  // }, [events, activeTab, searchQuery])
+  const [searchQuery, setSearchQuery] = useState("")
+  const router = useRouter()
 
   // const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   setSearchQuery(e.target.value)
@@ -86,12 +31,6 @@ export function EventLists({ onCreateClick }: Readonly<EventDashboardProps>) {
         </div>
         <Button onClick={onCreateClick}>Create Event</Button>
       </div>
-
-      <Tabs
-        defaultValue={activeTab}
-        className="w-full"
-        onValueChange={(value) => setActiveTab(value as "posted" | "draft" | "archive")}
-      >
         <TabsList className="w-full justify-start">
           <TabsTrigger value="posted">Posted</TabsTrigger>
           <TabsTrigger value="draft">Draft</TabsTrigger>
@@ -105,6 +44,17 @@ export function EventLists({ onCreateClick }: Readonly<EventDashboardProps>) {
         </TabsContent>
         <TabsContent value="archive">
           <TinderCardArray/>
+
+        </TabsContent>
+        <TabsContent value="draft">
+          <div onClick={() => router.push("/eventsDetails")}>
+            <TinderCardList />
+          </div>
+        </TabsContent>
+        <TabsContent value="archive">
+          <div onClick={() => router.push("/eventsDetails")}>
+            <TinderCardList />
+          </div>
         </TabsContent>
       </Tabs>
     </div>

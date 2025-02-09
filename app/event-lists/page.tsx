@@ -1,6 +1,11 @@
 "use client"
 
+
+import { useState, useEffect } from "react"
+import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { EventLists } from "@/components/event-lists-host"
 import { EventCreation } from "@/components/event-creation"
 import { EventDetail } from "@/components/event-detail"
 
@@ -21,7 +26,19 @@ const sampleEvent = {
 
 export default function Page() {
   const [view, setView] = useState<View>("dashboard")
-  const [isHost] = useState(true) // You can manage this based on your auth logic
+  const [isHost] = useState(true)
+  const { data: session, status } = useSession()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (status === "unauthenticated" || !session) {
+      router.push("/login")
+    }
+  }, [status, session, router])
+
+  if (status === "loading") {
+    return <p>Loading...</p>
+  }
 
   const renderView = () => {
     switch (view) {
@@ -30,10 +47,9 @@ export default function Page() {
       case "detail":
         return <EventDetail isHost={isHost} event={sampleEvent} onBack={() => setView("dashboard")} />
       default:
-        return;
+        return <EventLists onCreateClick={() => setView("creation")} /> //onEventClick={handleEventClick}
     }
   }
 
   return renderView()
 }
-

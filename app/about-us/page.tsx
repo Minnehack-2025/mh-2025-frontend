@@ -2,7 +2,7 @@
 export default function aboutus() {
   return (
     <div>
-      <h1>HI</h1>
+      <h1>:D HI</h1>
     </div>
   );
 }

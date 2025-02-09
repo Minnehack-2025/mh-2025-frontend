@@ -89,7 +89,7 @@ export function OnboardingForm({ initialEmail, initialPassword }: Readonly<Onboa
       console.log(formData.forEach((value, key) => console.log(key, value)));
 
       if (response.ok) {
-        router.push("/discover")
+        router.push("/dashboard")
       } else {
         const errorData = await response.json()
         throw new Error(errorData.message || "Failed to create user")
