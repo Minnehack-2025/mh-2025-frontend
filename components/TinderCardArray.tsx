@@ -27,8 +27,8 @@ const TinderCardArray = ({num, setNum} : TinderCardArrayProps) => {
       setEventsArray(data);
     };
     fetchData();
-    console.log(eventsArray);
-  }, [eventsArray])
+  }, [])
+
   return (
     <div>
       { num < eventsArray.length ? (    
@@ -41,7 +41,7 @@ const TinderCardArray = ({num, setNum} : TinderCardArrayProps) => {
               time={event.time} 
               location={event.location} 
               description={event.description}
-              image={event.image}
+              image={event.image_id}
             />
         ))
         ) : (

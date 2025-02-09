@@ -4,5 +4,5 @@ export type Event = {
   location: string;
   time: string;
   user_id: number;
-  image?: File; 
+  image_id?: number; 
 }

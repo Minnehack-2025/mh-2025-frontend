@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 export default function DiscoverPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [eventNum, setEventNumb] = useState(0);
+  const [eventNum, setEventNum] = useState(0);
   const [isHidden, setIsHidden] = useState(true);
 
 
@@ -31,10 +31,10 @@ export default function DiscoverPage() {
         isHidden ? (
           <>
             <div className="w-[70vw] h-[90vw] max-h-[75vh]">
-              <TinderCardArray num={eventNum} />
+              <TinderCardArray num={eventNum} setNum={setEventNum}/>
             </div>
             <div className="flex flex-row justify-between w-[60vw] mx-auto mt-4">
-              <button onClick={() => setEventNumb(eventNum + 1)}>
+              <button onClick={() => setEventNum(eventNum + 1)}>
                 <AiFillCloseCircle size={80} />
               </button>
               <button onClick={() => setIsHidden(false)}>
@@ -45,7 +45,7 @@ export default function DiscoverPage() {
         ) : (
           <div className={`w-full h-full flex flex-col items-center bg-white`}>
             <p className="text-center">You are registered!</p>
-            <Button onClick={() => { setIsHidden(true); setEventNumb(eventNum + 1); }}>
+            <Button onClick={() => { setIsHidden(true); setEventNum(eventNum + 1); }}>
               Next
             </Button>
           </div>

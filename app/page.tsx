@@ -34,12 +34,8 @@ export default function HomePage() {
   }
 
   useEffect(() => {
-    router.push("/dashboard"); // Ensures user gets redirected to the dashboard if necessary
+    router.push("/analytics"); // Ensures user gets redirected to the dashboard if necessary
   }, [router]);
-
-  const handleYes = () => {
-    setIsHidden(false);
-  };
   
   const handleCongratsClose = () => {
     setIsHidden(true);
@@ -67,8 +63,7 @@ export default function HomePage() {
 
   return (
     <div>
-      {
-        onAddFriend && (
+      {onAddFriend && (
         <div className="w-full flex justify-between py-2 bg-gray-200 px-[5vw] md:px-[15vw]">
           <div className="flex flex-row gap-2 items-center">
             <Image src={Profile} alt="Profile Picture" className='rounded-full w-8 h-8'></Image>
@@ -87,7 +82,7 @@ export default function HomePage() {
 
     <>
       <div className="flex flex-row justify-between mb-2 w-[90vw] md:w-[70vw] mx-auto">
-        <Preferences />
+        <Preferences onFriendSelect={handleSelectFriend}/>
         <ToggleGroup type="single" value={layout} onValueChange={handleToggle}>
           <ToggleGroupItem value="Tinder">
             <IoGameController />
@@ -110,7 +105,7 @@ export default function HomePage() {
             <TinderCardArray num={eventNum} setNum={setEventNum}/>
           </div>
           <div className="flex flex-row justify-between w-[60vw] mx-auto mt-4">
-            <button>
+            <button onClick={handleNo}>
               <AiFillCloseCircle size={80} />
             </button>
             <button onClick={handleYes}>
@@ -126,6 +121,7 @@ export default function HomePage() {
           </Button>
         </div>
       )}
-    </div>
+    </>
+  </div>
   );
 }
