@@ -94,13 +94,13 @@ export function EventLists({ onCreateClick }: Readonly<EventDashboardProps>) {
           <TabsTrigger value="archive">Archive</TabsTrigger>
         </TabsList>
         <TabsContent value="posted">
-          <TinderCardArray num={filteredEvents.length} eventsArray={filteredEvents.map((e) => e.title)} />
+          {/* <TinderCardArray num={filteredEvents.length} eventsArray={filteredEvents.map((e) => e.title)} />
         </TabsContent>
         <TabsContent value="draft">
           <TinderCardArray num={filteredEvents.length} eventsArray={filteredEvents.map((e) => e.title)} />
         </TabsContent>
         <TabsContent value="archive">
-          <TinderCardArray num={filteredEvents.length} eventsArray={filteredEvents.map((e) => e.title)} />
+          <TinderCardArray num={filteredEvents.length} eventsArray={filteredEvents.map((e) => e.title)} /> */}
         </TabsContent>
       </Tabs>
     </div>
