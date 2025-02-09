@@ -1,25 +1,31 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import TinderCard from "@/components/TinderCard";
-
 
 interface TinderCardArrayProps {
   eventsArray?: string[];
-  index: number;
+  num: number;
 }
 
-const TinderCardArray = ({index} : TinderCardArrayProps) => {
+const TinderCardArray = ({num} : TinderCardArrayProps) => {
 // async function TinderCardArray({num} : TinderCardArrayProps) {
   const eventsArray = ['history', 'hi']
-  // const response = await fetch("https://api.connectionhub.me/events", {
-  //   cache: "no-store",
-  // });
-  // const data = await response.json();
+
+  useEffect(() => {
+    const fetchData = async() => {
+      const response = await fetch("https://api.connectionhub.me/events", {
+        cache: "no-store",
+      });
+      const data = await response.json();
+      console.log(data);
+    };
+    fetchData();
+  }, [])
 
   return (
     <div>
-      { index > eventsArray.length ? (    
+      { num < eventsArray.length ? (    
         eventsArray
-          .filter((_, index) => index === index)
+          .filter((_, index) => num === index)
           .map((event, index) => (
             <TinderCard key={index} name={event} />
         ))

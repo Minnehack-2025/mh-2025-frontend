@@ -13,7 +13,7 @@ const EventCard: React.FC<EventCardPrompts> = () => {
   const friendsArray = [Profile, Profile, Profile]
 
   return (
-    <div className='flex flex-col gap-2 w-[70vw] mx-auto'>
+    <div className='flex flex-col gap-2 w-[70vw] mx-auto rounded-xl'>
       <div className='bg-cover flex flex-col justify-between h-[40vw]'
         style={{ backgroundImage: `linear-gradient(to top, rgba(31, 31, 31, 0.8), transparent), url(${Background.src})`}}
       >
