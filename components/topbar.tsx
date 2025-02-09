@@ -3,7 +3,8 @@ import React from 'react';
 const TopBar: React.FC = () => {
   return (
     <div className="flex flex-col gap-2 w-full mx-auto">
-      <div className='bg-gray-300 flex flex-row justify-between items-center p-4'>
+      <div className='bg-white-300 flex flex-row justify-between items-center p-4'> 
+        {/* Line comment here, resize works */}
         <h1 className='text-xl font-bold'>Topbar :D</h1>
         <div className='flex flex-row items-center gap-2'>
           <nav>
