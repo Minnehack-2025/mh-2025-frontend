@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import TinderCard from "@/components/TinderCard";
 import { Button } from './ui/button';
+import { Event } from '../models/models';
 
 interface TinderCardArrayProps {
   eventsArray?: string[];
@@ -10,7 +11,8 @@ interface TinderCardArrayProps {
 
 const TinderCardArray = ({num, setNum} : TinderCardArrayProps) => {
 // async function TinderCardArray({num} : TinderCardArrayProps) {
-  const eventsArray = ['history', 'hi']
+  // const eventsArray = ['history', 'hi']
+  const [eventsArray, setEventsArray] = useState<Event[]>([]);
 
   const handleEnd = () => {
     setNum(0);
@@ -22,10 +24,11 @@ const TinderCardArray = ({num, setNum} : TinderCardArrayProps) => {
         cache: "no-store",
       });
       const data = await response.json();
-      console.log(data);
+      setEventsArray(data);
     };
     fetchData();
-  }, [])
+    console.log(eventsArray);
+  }, [eventsArray])
 
   return (
     <div>
@@ -33,7 +36,10 @@ const TinderCardArray = ({num, setNum} : TinderCardArrayProps) => {
         eventsArray
           .filter((_, index) => num === index)
           .map((event, index) => (
-            <TinderCard key={index} name={event} />
+            <TinderCard key={index}/>
+            // <div key={index}>
+            //   <Image src={URL.createObjectURL(event.image)} alt="img" fill/>
+            // </div>
         ))
         ) : (
           <div className={`w-full h-full flex flex-col items-center py-[30vh] mb-3`}>
