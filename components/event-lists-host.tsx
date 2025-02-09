@@ -1,28 +1,28 @@
 "use client"
 
-import type React from "react"
-import { useState } from "react"
+import React, { useState } from "react"
 import { Search } from "lucide-react"
-// import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import TinderCardList from "./TinderCardList"
 import { Input } from "./ui/input"
+import { EventCreation } from "./EventCreation"
 
 interface EventListsProps {
-  // onCreateClick: () => void
-  onEventClick: () => void
+  onEventClick?: () => void
 }
 
-export function EventLists({  }: Readonly<EventListsProps>) { //onEventClick
-  // const [searchQuery, setSearchQuery] = useState("")
+export function EventLists({  }: Readonly<EventListsProps>) {
   const [activeTab, setActiveTab] = useState<"posted" | "draft" | "archive">("posted")
-  // const [events, setEvents] = useState<Event[]>([])
-  // const [filteredEvents, setFilteredEvents] = useState<Event[]>([])
+  const [isCreate, setIsCreate] = useState(false)
 
-  const 
+  const handleCreateEvent = () => {
+    setIsCreate(true)
+  }
 
-  return (
+  return isCreate ? ( // ✅ Correct JSX return
+    <EventCreation/>
+  ) : (
     <div className="container mx-auto p-4 space-y-6 w-[90vw] md:w-[70vw]">
       <div className="flex items-center gap-4">
         <div className="relative flex-1">
@@ -56,10 +56,4 @@ export function EventLists({  }: Readonly<EventListsProps>) { //onEventClick
   )
 }
 
-// const EventLists = () => {
-//   return (
-//     <></>
-//   );
-// }
-
-export default EventLists;
+export default EventLists

@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import EventLists from "@/components/event-lists-host"
-import { EventCreation } from "@/components/event-creation"
+import { EventCreation } from "@/components/EventCreation"
 import { EventDetail } from "@/components/event-detail"
 
 type View = "dashboard" | "creation" | "detail"
@@ -27,7 +27,7 @@ export default function Page() {
   const renderView = () => {
     switch (view) {
       case "creation":
-        return <EventCreation onBack={() => setView("dashboard")} />
+        return <EventCreation/>
       case "detail":
         return <EventDetail isHost={isHost} event={sampleEvent} onBack={() => setView("dashboard")} />
       default:

@@ -13,11 +13,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 
-interface EventCreationProps {
-  onBack: () => void
-}
 
-export function EventCreation({ onBack }: EventCreationProps) {
+export function EventCreation() {
   const [imageUrl, setImageUrl] = useState<string | null>(null)
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [date, setDate] = useState<Date>()
@@ -85,7 +82,7 @@ export function EventCreation({ onBack }: EventCreationProps) {
   return (
     <div className="container mx-auto p-4 space-y-6 w-[90vw] md:w-[70vw]">
       <div className="flex items-center justify-between w-full">
-        <Button variant="ghost" onClick={onBack} className="p-2">
+        <Button variant="ghost" className="p-2">
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back
         </Button>
