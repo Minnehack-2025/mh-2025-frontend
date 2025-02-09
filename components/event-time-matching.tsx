@@ -92,10 +92,16 @@ export function EventTimeMatching() {
 
             {/* Selected Time Display */}
             <div className="flex items-center gap-2 bg-muted/50 rounded-lg p-3">
-              <Calendar className="h-4 w-4" />
+            <div className="flex items-center gap-2">
+            <Calendar className="h-4 w-4" />
               <span className="text-sm">
                 {selectedTime ? format(selectedTime, "EEE, MMM d • h:mm a") : "Select the time block in the calendar"}
               </span>
+                   <Button variant="secondary" size="sm">
+                    Select
+                  </Button>
+            </div>
+
             </div>
 
             <div className="border rounded-lg">

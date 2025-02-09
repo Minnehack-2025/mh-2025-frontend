@@ -12,6 +12,8 @@ import { Calendar as CalendarComponent } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { LearnMyUser } from "@/components/learn-my-user"
+import { EventTimeMatching } from "@/components/event-time-matching"
 
 interface EventCreationProps {
   onBack: () => void
@@ -98,10 +100,7 @@ export function EventCreation({ onBack }: EventCreationProps) {
                 <CalendarComponent mode="single" selected={date} onSelect={setDate} initialFocus />
               </PopoverContent>
             </Popover>
-            <Button variant="outline" className="shrink-0">
-              <Wand2 className="h-4 w-4 mr-2" />
-              Choose for me
-            </Button>
+            <EventTimeMatching />
           </div>
           <Input placeholder="Location" />
         </div>
@@ -152,10 +151,7 @@ export function EventCreation({ onBack }: EventCreationProps) {
                 <SelectItem value="private">Private</SelectItem>
               </SelectContent>
             </Select>
-            <Button variant="outline" className="shrink-0">
-              <Wand2 className="h-4 w-4 mr-2" />
-              Pick
-            </Button>
+            <LearnMyUser />
           </div>
         </div>
 
