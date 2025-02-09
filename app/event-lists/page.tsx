@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import EventLists from "@/components/event-lists-host"
+import { EventLists } from "@/components/event-lists-host"
 import { EventCreation } from "@/components/event-creation"
 import { EventDetail } from "@/components/event-detail"
 
