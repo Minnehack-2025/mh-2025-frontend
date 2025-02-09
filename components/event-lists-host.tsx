@@ -7,10 +7,29 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import TinderCardList from "./TinderCardList"
+import type React from "react"
+import { useState, useEffect } from "react"
+import { Search } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import TinderCardArray from "@/components/TinderCardArray"
 
 interface EventDashboardProps {
   // onCreateClick: () => void
   onEventClick: () => void
+}
+interface Event {
+  id: string
+  title: string
+  time: string
+  location: string
+  description: string
+  status: "posted" | "draft" | "archive"
+}
+
+interface EventDashboardProps {
+  onCreateClick: () => void
 }
 
 export function EventLists({  }: Readonly<EventDashboardProps>) { //onEventClick
@@ -18,21 +37,56 @@ export function EventLists({  }: Readonly<EventDashboardProps>) { //onEventClick
   const [activeTab, setActiveTab] = useState<"posted" | "draft" | "archive">("posted")
   // const [events, setEvents] = useState<Event[]>([])
   // const [filteredEvents, setFilteredEvents] = useState<Event[]>([])
+export function EventLists({ onCreateClick }: Readonly<EventDashboardProps>) {
+  const [searchQuery, setSearchQuery] = useState("")
+  const [activeTab, setActiveTab] = useState<"posted" | "draft" | "archive">("posted")
+  const [events, setEvents] = useState<Event[]>([])
+  const [filteredEvents, setFilteredEvents] = useState<Event[]>([])
 
+  useEffect(() => {
+    // Simulating API call to fetch events
+    const fetchEvents = async () => {
+      const mockEvents: Event[] = [
+        {
+          id: "1",
+          title: "Tech Conference",
+          time: "Sat, Feb 8 · 1:00 PM",
+          location: "San Francisco",
+          description: "Annual tech conference",
+          status: "posted",
+        },
+        {
+          id: "2",
+          title: "Art Exhibition",
+          time: "Sun, Feb 9 · 2:00 PM",
+          location: "New York",
+          description: "Modern art showcase",
+          status: "draft",
+        },
+        {
+          id: "3",
+          title: "Music Festival",
+          time: "Fri, Feb 14 · 6:00 PM",
+          location: "Los Angeles",
+          description: "Three-day music event",
+          status: "archive",
+        },
+      ]
+      setEvents(mockEvents)
+    }
 
-  // useEffect(() => {
-  //   // const filtered = events.filter(
-  //   //   (event) => event.status === activeTab && event.title.toLowerCase().includes(searchQuery.toLowerCase()),
-  //   // )
-  //   // setFilteredEvents(filtered)
-  // }, [events, activeTab, searchQuery])
+    fetchEvents()
+  }, [])
+
+  useEffect(() => {
+    const filtered = events.filter(
+      (event) => event.status === activeTab && event.title.toLowerCase().includes(searchQuery.toLowerCase()),
+    )
+    setFilteredEvents(filtered)
+  }, [events, activeTab, searchQuery])
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value)
-  }
-
-  const onCreateClick = () => {
-    
   }
 
   return (
@@ -46,7 +100,7 @@ export function EventLists({  }: Readonly<EventDashboardProps>) { //onEventClick
       </div>
 
       <Tabs
-        defaultValue={activeTab}
+        defaultValue="posted"
         className="w-full"
         onValueChange={(value) => setActiveTab(value as "posted" | "draft" | "archive")}
       >
@@ -56,24 +110,16 @@ export function EventLists({  }: Readonly<EventDashboardProps>) { //onEventClick
           <TabsTrigger value="archive">Archive</TabsTrigger>
         </TabsList>
         <TabsContent value="posted">
-          <TinderCardList/>
-          {/* onClick={onEventClick} */}
+          <TinderCardArray num={filteredEvents.length} eventsArray={filteredEvents.map((e) => e.title)} />
         </TabsContent>
         <TabsContent value="draft">
-          <TinderCardList/>
+          <TinderCardArray num={filteredEvents.length} eventsArray={filteredEvents.map((e) => e.title)} />
         </TabsContent>
         <TabsContent value="archive">
-          <TinderCardList/>
+          <TinderCardArray num={filteredEvents.length} eventsArray={filteredEvents.map((e) => e.title)} />
         </TabsContent>
       </Tabs>
     </div>
   )
 }
 
-// const EventLists = () => {
-//   return (
-//     <></>
-//   );
-// }
-
-export default EventLists;
