@@ -18,11 +18,10 @@ interface Event {
 }
 
 interface EventDashboardProps {
-//   onCreateClick: () => void
-  onEventClick: () => void
+  onCreateClick: () => void
 }
 
-export function EventLists({  }: Readonly<EventDashboardProps>) { //onEventClick
+export function EventLists({ onCreateClick }: Readonly<EventDashboardProps>) {
   const [searchQuery, setSearchQuery] = useState("")
   const [activeTab, setActiveTab] = useState<"posted" | "draft" | "archive">("posted")
   const [events, setEvents] = useState<Event[]>([])
@@ -31,7 +30,6 @@ export function EventLists({  }: Readonly<EventDashboardProps>) { //onEventClick
   useEffect(() => {
     // Simulating API call to fetch events
     const fetchEvents = async () => {
-      // Replace this with your actual API call
       const mockEvents: Event[] = [
         {
           id: "1",
@@ -82,8 +80,7 @@ export function EventLists({  }: Readonly<EventDashboardProps>) { //onEventClick
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input placeholder="Search with event title" className="pl-10" value={searchQuery} onChange={handleSearch} />
         </div>
-        <Button >Create Event</Button>
-        {/* onClick={onCreateClick} */}
+        <Button onClick={onCreateClick}>Create Event</Button>
       </div>
 
       <Tabs
@@ -98,7 +95,6 @@ export function EventLists({  }: Readonly<EventDashboardProps>) { //onEventClick
         </TabsList>
         <TabsContent value="posted">
           <TinderCardArray num={filteredEvents.length} eventsArray={filteredEvents.map((e) => e.title)} />
-          {/* onClick={onEventClick} */}
         </TabsContent>
         <TabsContent value="draft">
           <TinderCardArray num={filteredEvents.length} eventsArray={filteredEvents.map((e) => e.title)} />
