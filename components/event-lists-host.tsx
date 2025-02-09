@@ -38,9 +38,7 @@ export function EventLists({ onCreateClick }: Readonly<EventDashboardProps>) {
           <TabsTrigger value="archive">Archive</TabsTrigger>
         </TabsList>
         <TabsContent value="posted">
-          <div onClick={() => router.push("/eventsDetails")}>
-            <TinderCardList />
-          </div>
+
         </TabsContent>
         <TabsContent value="draft">
           <div onClick={() => router.push("/eventsDetails")}>
