@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { ArrowLeft, Plus, Calendar as CalendarIcon, Wand2  } from "lucide-react"
+import { ArrowLeft, Plus, Calendar as CalendarIcon, Wand2 } from "lucide-react"
 import { format } from "date-fns"
 import { cn } from "@/lib/utils"
 import { Calendar as CalendarComponent } from "@/components/ui/calendar"
@@ -19,7 +19,11 @@ interface EventCreationProps {
 
 export function EventCreation({ onBack }: EventCreationProps) {
   const [imageUrl, setImageUrl] = useState<string | null>(null)
+  const [imageFile, setImageFile] = useState<File | null>(null)
   const [date, setDate] = useState<Date>()
+  const [title, setTitle] = useState<string>("")
+  const [location, setLocation] = useState<string>("")
+  const [description, setDescription] = useState<string>("")
   const [price, setPrice] = useState<string>("0")
   const [showDialog, setShowDialog] = useState(false)
   const router = useRouter()
@@ -29,6 +33,7 @@ export function EventCreation({ onBack }: EventCreationProps) {
     if (file) {
       const url = URL.createObjectURL(file)
       setImageUrl(url)
+      setImageFile(file)
     }
   }
 
@@ -40,8 +45,36 @@ export function EventCreation({ onBack }: EventCreationProps) {
     setPrice(sanitizedValue)
   }
 
-  const handleSubmit = () => {
-    setShowDialog(true)
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault()
+
+    const formData = new FormData()
+    formData.append("name", title)
+    formData.append("description", description)
+    formData.append("location", location)
+    formData.append("time", date?.toISOString() || "")
+    formData.append("user_id", "1") // Replace with actual user ID
+    if (imageFile) {
+      formData.append("image", imageFile)
+    }
+
+    try {
+      const response = await fetch("https://api.connectionhub.me/events", {
+        method: "POST",
+        body: formData
+      })
+
+      if (response.ok) {
+        setShowDialog(true)
+        setTimeout(() => {
+          router.push("/discover")
+        }, 2000)
+      } else {
+        console.error("Failed to create event")
+      }
+    } catch (error) {
+      console.error("Error:", error)
+    }
   }
 
   const handleConfirm = () => {
@@ -62,7 +95,7 @@ export function EventCreation({ onBack }: EventCreationProps) {
         </div>
       </div>
 
-      <form className="space-y-8">
+      <form className="space-y-8" onSubmit={handleSubmit}>
         {/* Image Upload Section */}
         <div className="relative">
           {imageUrl ? (
@@ -85,7 +118,7 @@ export function EventCreation({ onBack }: EventCreationProps) {
 
         {/* Title, Date, and Location */}
         <div className="space-y-4">
-          <Input placeholder="Title" className="text-xl font-semibold" />
+          <Input placeholder="Title" className="text-xl font-semibold" value={title} onChange={(e) => setTitle(e.target.value)} />
           <div className="flex gap-4">
             <Popover>
               <PopoverTrigger asChild>
@@ -103,7 +136,7 @@ export function EventCreation({ onBack }: EventCreationProps) {
               Choose for me
             </Button>
           </div>
-          <Input placeholder="Location" />
+          <Input placeholder="Location" value={location} onChange={(e) => setLocation(e.target.value)} />
         </div>
 
         {/* Registration */}
@@ -162,7 +195,7 @@ export function EventCreation({ onBack }: EventCreationProps) {
         {/* Description */}
         <div className="space-y-2">
           <h3 className="text-lg font-semibold">Description</h3>
-          <Textarea placeholder="Description" className="min-h-[100px]" />
+          <Textarea placeholder="Description" className="min-h-[100px]" value={description} onChange={(e) => setDescription(e.target.value)} />
         </div>
 
         {/* Also posted in */}
