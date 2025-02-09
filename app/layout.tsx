@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { inter } from "@/fonts/fonts";
 import "./globals.css";
+import TopBar from "@/components/topbar";
 
 export const metadata: Metadata = {
   title: "Co. Hub - Event made easy",
@@ -17,6 +18,7 @@ export default function RootLayout({
       <body
         className={`${inter.className} antialiased`}
       >
+        <TopBar/>
         {children}
       </body>
     </html>

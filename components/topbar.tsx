@@ -1,17 +1,21 @@
 import React from 'react';
+import logo from '@/images/ss.png'
+import Image from 'next/image';
+import Link from 'next/link';
 
 const TopBar: React.FC = () => {
   return (
     <div className="flex flex-col gap-2 w-full mx-auto">
       <div className='bg-white-300 flex flex-row justify-between items-center p-4'> 
-        {/* Line comment here, resize works */}
-        <h1 className='text-xl font-bold'>Topbar :D</h1>
+        <Link href='/'>
+          <Image src={logo} alt="logo" className='w-10 rounded-full'/>
+        </Link>
         <div className='flex flex-row items-center gap-2'>
           <nav>
             <ul className='flex flex-row gap-4'>
-              <li><a href="#subsection1" className='text-black hover:text-black-800'>Subsection 1</a></li>
-              <li><a href="#subsection2" className='text-black hover:text-black-800'>Subsection 2</a></li>
-              <li><a href="#subsection3" className='text-black hover:text-black-800'>Subsection 3</a></li>
+              <li><Link href="/" className='text-black hover:underline'>Discover</Link></li>
+              <li><Link href="following" className='text-black hover:underline'>Following</Link></li>
+              <li><Link href="profile" className='text-black hover:underline'>Profile</Link></li>
             </ul>
           </nav>
         </div>
