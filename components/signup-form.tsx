@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import Image from "next/image"
 
 export function SignupForm({ className, ...props }: React.ComponentProps<"div">) {
   const [email, setEmail] = useState("")
@@ -66,11 +67,12 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"div">)
             </div>
           </form>
           <div className="relative hidden bg-muted md:block">
-            <img
-              src="/logo/vert.svg"
-              alt="Image"
-              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-            />
+          <Image
+            src="/logo/vert.svg"
+            alt="Image"
+            fill // Equivalent to `className="absolute inset-0 h-full w-full"`
+            className="object-cover dark:brightness-[0.2] dark:grayscale"
+          />
           </div>
         </CardContent>
       </Card>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { inter } from "@/fonts/fonts";
 import "./globals.css";
 import SessionWrapper from "@/components/SessionWrapper";
+import TopBar from "@/components/topbar";
 
 export const metadata: Metadata = {
   title: "Co. Hub - Event made easy",
@@ -16,7 +17,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} antialiased`}>
-        <SessionWrapper>{children}</SessionWrapper>
+        <SessionWrapper>
+          <TopBar />
+          {children}
+        </SessionWrapper>
       </body>
     </html>
   );
