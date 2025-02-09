@@ -3,6 +3,7 @@ import { inter } from "@/fonts/fonts";
 import "./globals.css";
 import SessionWrapper from "@/components/SessionWrapper";
 import TopBar from "@/components/topbar";
+import { NavProvider } from "@/components/NavContext";
 
 export const metadata: Metadata = {
   title: "Co. Hub - Event made easy",
@@ -14,12 +15,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body className={`${inter.className} antialiased`}>
         <SessionWrapper>
-          <TopBar />
-          {children}
+          <NavProvider>
+            <TopBar />
+            {children}
+          </NavProvider>
         </SessionWrapper>
       </body>
     </html>

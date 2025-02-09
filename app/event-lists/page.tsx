@@ -31,8 +31,7 @@ export default function Page() {
       case "detail":
         return <EventDetail isHost={isHost} event={sampleEvent} onBack={() => setView("dashboard")} />
       default:
-        // return <EventLists  onEventClick={() => setView("detail")} /> //onCreateClick={() => setView("creation")}
-        return <EventLists/>
+        return <EventLists onEventClick={() => setView("detail")} /> //onCreateClick={() => setView("creation")}
     }
   }
 

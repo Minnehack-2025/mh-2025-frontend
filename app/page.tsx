@@ -34,7 +34,7 @@ export default function HomePage() {
   }
 
   useEffect(() => {
-    router.push("/dashboard"); // Ensures user gets redirected to the dashboard if necessary
+    router.push("/discover");
   }, [router]);
   
   const handleCongratsClose = () => {
