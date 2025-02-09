@@ -6,7 +6,7 @@ interface TinderCardArrayProps {
   num: number;
 }
 
-const TinderCardArray = ({num} : TinderCardArrayProps) => {
+const TinderCardArray = ({num } : TinderCardArrayProps) => { //onClick
 // async function TinderCardArray({num} : TinderCardArrayProps) {
   const eventsArray = ['history', 'hi']
 
@@ -20,14 +20,14 @@ const TinderCardArray = ({num} : TinderCardArrayProps) => {
     };
     fetchData();
   }, [])
-
+    
   return (
     <div>
       { num < eventsArray.length ? (    
         eventsArray
           .filter((_, index) => num === index)
           .map((event, index) => (
-            <TinderCard key={index} name={event} />
+            <TinderCard key={index} name={event} /> //onClick={onClick}
         ))
         ) : (
           <p className='text-center mx-auto'>
