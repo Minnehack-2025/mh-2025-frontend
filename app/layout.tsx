@@ -1,20 +1,15 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { inter } from "@/fonts/fonts";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
+<<<<<<< HEAD
   title: "Co. Hub - Event made easy",
   description: "A Better Alternative to Gopher Link - University of Minnesota",
+=======
+  title: "Connection Hub",
+  description: "Find new events and friends!",
+>>>>>>> main
 };
 
 export default function RootLayout({
@@ -25,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${inter.className} antialiased`}
       >
         {children}
       </body>
