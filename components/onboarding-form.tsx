@@ -10,11 +10,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea"
 import { SiGooglecalendar } from "react-icons/si";
 
-import { toast } from "@/components/ui/use-toast"
-
-interface SignupData {
-  email: string
-  password: string
+interface OnboardingFormProps {
+  initialEmail: string | null
+  initialPassword: string | null
 }
 
 interface UserData {
@@ -29,7 +27,7 @@ interface UserData {
   password: string
 }
 
-export function OnboardingForm(): React.ReactElement {
+export function OnboardingForm({ initialEmail, initialPassword }: Readonly<OnboardingFormProps>): React.ReactElement {
   const router = useRouter()
   const [userData, setUserData] = useState<UserData>({
     username: "",
@@ -44,12 +42,13 @@ export function OnboardingForm(): React.ReactElement {
   })
 
   useEffect(() => {
-    const signupData = sessionStorage.getItem("signupData")
-    if (signupData) {
-      const { email, password } = JSON.parse(signupData) as SignupData
-      setUserData((prevState: UserData) => ({ ...prevState, email, password }))
+    if (initialEmail) {
+      setUserData((prevState) => ({ ...prevState, email: initialEmail }))
     }
-  }, [])
+    if (initialPassword) {
+      setUserData((prevState) => ({ ...prevState, password: initialPassword }))
+    }
+  }, [initialEmail, initialPassword])
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -82,27 +81,21 @@ export function OnboardingForm(): React.ReactElement {
     })
 
     try {
-      const response = await fetch("/api/users", {
+      const response = await fetch("https://api.connectionhub.me/users", {
         method: "POST",
         body: formData,
       })
 
+      console.log(formData.forEach((value, key) => console.log(key, value)));
+
       if (response.ok) {
-        toast({
-          title: "Success",
-          description: "User created successfully!",
-        })
-        router.push("/explore")
+        router.push("/discover")
       } else {
         const errorData = await response.json()
         throw new Error(errorData.message || "Failed to create user")
       }
     } catch (error) {
-      toast({
-        title: "Error",
-        description: error instanceof Error ? error.message : "An error occurred",
-        variant: "destructive",
-      })
+      console.error(error)
     }
   }
   
@@ -111,6 +104,11 @@ export function OnboardingForm(): React.ReactElement {
       <div className="w-full max-w-3xl space-y-8">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="image">Profile Image (optional)</Label>
+              <Input id="image" name="image" type="file" onChange={handleImageChange} accept="image/*" /> </div>
+            </div>
+
             <div className="space-y-2">
               <Label htmlFor="username">Username</Label>
               <Input
@@ -128,7 +126,7 @@ export function OnboardingForm(): React.ReactElement {
               <Label>Category that interests You</Label>
               <Select onValueChange={handleSelectChange("interests")} required>
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Technology" />
+                  <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="technology">Technology</SelectItem>
@@ -142,7 +140,7 @@ export function OnboardingForm(): React.ReactElement {
               <Label>Education level</Label>
               <Select onValueChange={handleSelectChange("educationLevel")} required>
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="undergraduate" />
+                  <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="undergraduate">Undergraduate</SelectItem>
@@ -156,7 +154,7 @@ export function OnboardingForm(): React.ReactElement {
               <Label>Do you like going out for an event?</Label>
               <Select onValueChange={handleSelectChange("preference")} required>
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Yes - in daily basis" />
+                  <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="daily">Absolutely Yes - in daily basis</SelectItem>
@@ -168,7 +166,7 @@ export function OnboardingForm(): React.ReactElement {
             </div>
 
             <div className="space-y-2">
-              <Label>Tell us your availability</Label>
+              <Label>Tell us your availability (optional)</Label>
               <Button variant="outline" className="w-full justify-between">
                 Sync with Google calendar
                 <SiGooglecalendar className="h-4 w-4" />
@@ -187,11 +185,6 @@ export function OnboardingForm(): React.ReactElement {
                 required
               />
             </div>
-
-            <div className="space-y-2">
-            <Label htmlFor="image">Profile Image (optional)</Label>
-            <Input id="image" name="image" type="file" onChange={handleImageChange} accept="image/*" />            </div>
-          </div>
 
           <div className="pt-4">
             <Button  type="submit" className="w-full">Next</Button>

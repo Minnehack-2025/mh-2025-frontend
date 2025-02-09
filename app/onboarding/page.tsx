@@ -8,12 +8,14 @@ import { useRouter } from "next/navigation"
 export default function Onboarding() {
   const router = useRouter()
   const [email, setEmail] = useState<string | null>(null)
+  const [password, setPassword] = useState<string | null>(null)
 
   useEffect(() => {
     const signupData = sessionStorage.getItem("signupData")
     if (signupData) {
-      const { email } = JSON.parse(signupData)
+      const { email, password } = JSON.parse(signupData)
       setEmail(email)
+      setPassword(password)
       sessionStorage.removeItem("signupData")
     }
   }, [])
@@ -34,9 +36,6 @@ export default function Onboarding() {
             <span className="text-4xl">👋</span>
             <span className="text-muted-foreground">{email}</span>
           </div>
-          <Button variant="ghost" className="text-muted-foreground">
-            Skip
-          </Button>
         </div>
 
         <div className="space-y-6">
@@ -45,7 +44,7 @@ export default function Onboarding() {
             <p className="text-muted-foreground">This would help us choose the best event for you!</p>
           </div>
           
-          <OnboardingForm/>
+          <OnboardingForm initialEmail={email} initialPassword={password} />
         </div>
       </div>
     </div>
