@@ -3,7 +3,7 @@
 import { ArrowLeft, ArrowRight, Copy } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import TinderCardArray from "@/components/TinderCardArray"
+import TinderCardArray from "@/components/TinderCardList"
 import { Input } from "@/components/ui/input"
 
 interface EventDetailProps {
@@ -48,7 +48,7 @@ export function EventDetail({ isHost, event, onBack }: EventDetailProps) {
             Host
           </Badge>
         )}
-        <TinderCardArray num={1} eventsArray={[event.title]} />
+        <TinderCardArray/>
       </div>
 
       <div className="space-y-4">
