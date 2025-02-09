@@ -5,8 +5,6 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Co. Hub - Event made easy",
   description: "A Better Alternative to Gopher Link - University of Minnesota",
-  title: "Connection Hub",
-  description: "Find new events and friends!",
 };
 
 export default function RootLayout({
