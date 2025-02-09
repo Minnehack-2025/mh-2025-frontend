@@ -1,3 +1,7 @@
+"use client"
+
+import { useState, useEffect, type ChangeEvent, type FormEvent } from "react"
+import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -6,23 +10,123 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea"
 import { SiGooglecalendar } from "react-icons/si";
 
-export function OnboardingForm() {
+interface OnboardingFormProps {
+  initialEmail: string | null
+  initialPassword: string | null
+}
+
+interface UserData {
+  username: string
+  interests: string
+  educationLevel: string
+  preference: string
+  availability: string
+  goal: string
+  image: File | null
+  email: string
+  password: string
+}
+
+export function OnboardingForm({ initialEmail, initialPassword }: Readonly<OnboardingFormProps>): React.ReactElement {
+  const router = useRouter()
+  const [userData, setUserData] = useState<UserData>({
+    username: "",
+    interests: "",
+    educationLevel: "",
+    preference: "",
+    availability: "",
+    goal: "",
+    image: null,
+    email: "",
+    password: "",
+  })
+
+  useEffect(() => {
+    if (initialEmail) {
+      setUserData((prevState) => ({ ...prevState, email: initialEmail }))
+    }
+    if (initialPassword) {
+      setUserData((prevState) => ({ ...prevState, password: initialPassword }))
+    }
+  }, [initialEmail, initialPassword])
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setUserData((prevState: UserData) => ({ ...prevState, [name]: value }))
+  }
+
+  const handleSelectChange = (name: string) => (value: string) => {
+    setUserData((prevState: UserData) => ({ ...prevState, [name]: value }))
+  }
+
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null
+    setUserData((prevState: UserData) => ({ ...prevState, image: file }))
+  }
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    const formData = new FormData()
+    Object.entries(userData).forEach(([key, value]) => {
+      if (key === "interests") {
+        formData.append(key, JSON.stringify({ category: value }))
+      } else if (key === "availability") {
+        formData.append(key, JSON.stringify({ preference: value }))
+      } else if (key === "image" && value instanceof File) {
+        formData.append(key, value)
+      } else {
+        formData.append(key, value as string)
+      }
+    })
+
+    try {
+      const response = await fetch("https://api.connectionhub.me/users", {
+        method: "POST",
+        body: formData,
+      })
+
+      console.log(formData.forEach((value, key) => console.log(key, value)));
+
+      if (response.ok) {
+        router.push("/discover")
+      } else {
+        const errorData = await response.json()
+        throw new Error(errorData.message || "Failed to create user")
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
   
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 md:p-8">
       <div className="w-full max-w-3xl space-y-8">
-        <div className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-4">
             <div className="space-y-2">
+              <Label htmlFor="image">Profile Image (optional)</Label>
+              <Input id="image" name="image" type="file" onChange={handleImageChange} accept="image/*" /> </div>
+            </div>
+
+            <div className="space-y-2">
               <Label htmlFor="username">Username</Label>
-              <Input id="username" placeholder="Username" className="w-full" />
+              <Input
+                id="username"
+                name="username"
+                value={userData.username}
+                onChange={handleInputChange}
+                placeholder="Username"
+                className="w-full"
+                required
+              />
             </div>
 
             <div className="space-y-2">
               <Label>Category that interests You</Label>
-              <Select>
+              <Select onValueChange={handleSelectChange("interests")} required>
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Technology" />
+                  <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="technology">Technology</SelectItem>
@@ -34,9 +138,9 @@ export function OnboardingForm() {
 
             <div className="space-y-2">
               <Label>Education level</Label>
-              <Select>
+              <Select onValueChange={handleSelectChange("educationLevel")} required>
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="undergraduate" />
+                  <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="undergraduate">Undergraduate</SelectItem>
@@ -48,9 +152,9 @@ export function OnboardingForm() {
 
             <div className="space-y-2">
               <Label>Do you like going out for an event?</Label>
-              <Select>
+              <Select onValueChange={handleSelectChange("preference")} required>
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Yes - in daily basis" />
+                  <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="daily">Absolutely Yes - in daily basis</SelectItem>
@@ -62,7 +166,7 @@ export function OnboardingForm() {
             </div>
 
             <div className="space-y-2">
-              <Label>Tell us your availability</Label>
+              <Label>Tell us your availability (optional)</Label>
               <Button variant="outline" className="w-full justify-between">
                 Sync with Google calendar
                 <SiGooglecalendar className="h-4 w-4" />
@@ -72,16 +176,20 @@ export function OnboardingForm() {
             <div className="space-y-2">
               <Label>Tell our AI your ultimate goal of going to events</Label>
               <Textarea
+                id="goal"
+                name="goal"
+                value={userData.goal}
+                onChange={handleInputChange}
                 placeholder="I want to land an SWE internship in FAANG, would wanna join networking events, career, or any coding events."
                 className="min-h-[100px] w-full"
+                required
               />
             </div>
-          </div>
 
           <div className="pt-4">
-            <Button className="w-full">Next</Button>
+            <Button  type="submit" className="w-full">Next</Button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   )
