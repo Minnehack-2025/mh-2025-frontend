@@ -2,8 +2,6 @@
 
 import { ArrowLeft, ArrowRight, Copy } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import TinderCardArray from "@/components/TinderCardList"
 import { Input } from "@/components/ui/input"
 
 interface EventDetailProps {
@@ -42,14 +40,7 @@ export function EventDetail({ isHost, event, onBack }: EventDetailProps) {
         {isHost && getActionButton(event.status)}
       </div>
 
-      <div className="relative">
-        {isHost && (
-          <Badge variant="secondary" className="absolute left-4 top-4">
-            Host
-          </Badge>
-        )}
-        <TinderCardArray/>
-      </div>
+    
 
       <div className="space-y-4">
         <h1 className="text-2xl font-bold">{event.title}</h1>
