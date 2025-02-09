@@ -36,10 +36,14 @@ const TinderCardArray = ({num, setNum} : TinderCardArrayProps) => {
         eventsArray
           .filter((_, index) => num === index)
           .map((event, index) => (
-            <TinderCard key={index}/>
-            // <div key={index}>
-            //   <Image src={URL.createObjectURL(event.image)} alt="img" fill/>
-            // </div>
+            <TinderCard 
+              key={index} 
+              name={event.name} 
+              time={event.time} 
+              location={event.location} 
+              description={event.description}
+              image={event.image}
+            />
         ))
         ) : (
           <div className={`w-full h-full flex flex-col items-center py-[30vh] mb-3`}>

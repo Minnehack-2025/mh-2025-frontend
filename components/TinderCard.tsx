@@ -4,8 +4,11 @@ import Profile from '@/images/ss.png'
 import Background from '@/images/bg.png'
 
 interface TinderCardProps {
-  name?: string;
-  time?: string;
+  name: string;
+  time: string;
+  location: string;
+  description?: string;
+  image?: File;
   friendsArray?: string;
 }
 
