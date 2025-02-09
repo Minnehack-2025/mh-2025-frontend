@@ -1,90 +1,35 @@
 "use client"
 
 import type React from "react"
+import { useState } from "react"
 import { Search } from "lucide-react"
+// import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { useState } from "react"
-import TinderCardArray from "@/components/TinderCardList"
+import TinderCardList from "./TinderCardList"
+import { Input } from "./ui/input"
 
-interface EventDashboardProps {
+interface EventListsProps {
   // onCreateClick: () => void
   onEventClick: () => void
 }
-// interface Event {
-//   id: string
-//   title: string
-//   time: string
-//   location: string
-//   description: string
-//   status: "posted" | "draft" | "archive"
-// }
 
-interface EventDashboardProps {
-  onCreateClick: () => void
-}
-
-
-export function EventLists({ onCreateClick }: Readonly<EventDashboardProps>) {
+export function EventLists({  }: Readonly<EventListsProps>) { //onEventClick
   // const [searchQuery, setSearchQuery] = useState("")
   const [activeTab, setActiveTab] = useState<"posted" | "draft" | "archive">("posted")
   // const [events, setEvents] = useState<Event[]>([])
   // const [filteredEvents, setFilteredEvents] = useState<Event[]>([])
 
-  // useEffect(() => {
-  //   // Simulating API call to fetch events
-  //   const fetchEvents = async () => {
-  //     const mockEvents: Event[] = [
-  //       {
-  //         id: "1",
-  //         title: "Tech Conference",
-  //         time: "Sat, Feb 8 · 1:00 PM",
-  //         location: "San Francisco",
-  //         description: "Annual tech conference",
-  //         status: "posted",
-  //       },
-  //       {
-  //         id: "2",
-  //         title: "Art Exhibition",
-  //         time: "Sun, Feb 9 · 2:00 PM",
-  //         location: "New York",
-  //         description: "Modern art showcase",
-  //         status: "draft",
-  //       },
-  //       {
-  //         id: "3",
-  //         title: "Music Festival",
-  //         time: "Fri, Feb 14 · 6:00 PM",
-  //         location: "Los Angeles",
-  //         description: "Three-day music event",
-  //         status: "archive",
-  //       },
-  //     ]
-  //     setEvents(mockEvents)
-  //   }
-
-  //   fetchEvents()
-  // }, [])
-
-  // useEffect(() => {
-  //   const filtered = events.filter(
-  //     (event) => event.status === activeTab && event.title.toLowerCase().includes(searchQuery.toLowerCase()),
-  //   )
-  //   setFilteredEvents(filtered)
-  // }, [events, activeTab, searchQuery])
-
-  // const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setSearchQuery(e.target.value)
-  // }
+  const 
 
   return (
     <div className="container mx-auto p-4 space-y-6 w-[90vw] md:w-[70vw]">
       <div className="flex items-center gap-4">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          {/* <Input placeholder="Search with event title" className="pl-10" value={searchQuery} onChange={handleSearch} /> */}
+          <Input placeholder="Search with event title" className="pl-10"/>
         </div>
-        <Button onClick={onCreateClick}>Create Event</Button>
+        <Button onClick={handleCreateEvent}>Create Event</Button>
       </div>
 
       <Tabs
@@ -98,17 +43,23 @@ export function EventLists({ onCreateClick }: Readonly<EventDashboardProps>) {
           <TabsTrigger value="archive">Archive</TabsTrigger>
         </TabsList>
         <TabsContent value="posted">
-          <TinderCardArray/>
+          <TinderCardList/>
         </TabsContent>
         <TabsContent value="draft">
-          <TinderCardArray/>
+          <TinderCardList/>
         </TabsContent>
         <TabsContent value="archive">
-          <TinderCardArray/>
+          <TinderCardList/>
         </TabsContent>
       </Tabs>
     </div>
   )
 }
+
+// const EventLists = () => {
+//   return (
+//     <></>
+//   );
+// }
 
 export default EventLists;
