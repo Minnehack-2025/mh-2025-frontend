@@ -2,10 +2,6 @@ import Image from 'next/image';
 import React from 'react'
 import Profile from '@/images/ss.png'
 import Background from '@/images/bg.png'
-import { Button } from './ui/button';
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
-import { TbLayoutDistributeHorizontalFilled } from "react-icons/tb";
-import { IoGameController } from "react-icons/io5";
 
 interface TinderCardProps {
   name?: string;
@@ -18,13 +14,6 @@ const TinderCard: React.FC<TinderCardProps> = ( ) => {
 
   return (
     <div className='w-[90vw] md:w-[70vw] mx-auto'>
-    <div className='flex flex-row justify-between mb-2'>
-      <Button variant="outline">Preferences</Button>
-      <ToggleGroup type="single">
-        <ToggleGroupItem value="Tinder"><IoGameController/></ToggleGroupItem>
-        <ToggleGroupItem value="Rows"><TbLayoutDistributeHorizontalFilled/></ToggleGroupItem>
-      </ToggleGroup>
-    </div>
     <div className='flex flex-col gap-2'>
       <div className='bg-cover bg-center flex flex-col justify-between h-[90vw] max-h-[50vh] w-auto rounded-xl'
         style={{ backgroundImage: `linear-gradient(to top, rgba(31, 31, 31, 0.8), transparent), url(${Background.src})`}}

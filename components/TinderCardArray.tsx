@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import TinderCard from "@/components/TinderCard";
-
 
 interface TinderCardArrayProps {
   eventsArray?: string[];
@@ -10,10 +9,17 @@ interface TinderCardArrayProps {
 const TinderCardArray = ({num} : TinderCardArrayProps) => {
 // async function TinderCardArray({num} : TinderCardArrayProps) {
   const eventsArray = ['history', 'hi']
-  // const response = await fetch("https://api.connectionhub.me/events", {
-  //   cache: "no-store",
-  // });
-  // const data = await response.json();
+
+  useEffect(() => {
+    const fetchData = async() => {
+      const response = await fetch("https://api.connectionhub.me/events", {
+        cache: "no-store",
+      });
+      const data = await response.json();
+      console.log(data);
+    };
+    fetchData();
+  }, [])
 
   return (
     <div>
