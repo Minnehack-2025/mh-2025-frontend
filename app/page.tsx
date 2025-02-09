@@ -27,8 +27,8 @@ export default function Home() {
     <>
       {isHidden ? (
         <>
-          <div className="w-[70vw] h-[90vw] max-h-[75vh]">
-            <TinderCardArray index={eventNum}/>
+          <div>
+            <TinderCardArray num={eventNum}/>
           </div>
           <div className="flex flex-row justify-between w-[60vw] mx-auto mt-4"> 
             <button onClick={handleNo}>

@@ -4,10 +4,10 @@ import TinderCard from "@/components/TinderCard";
 
 interface TinderCardArrayProps {
   eventsArray?: string[];
-  index: number;
+  num: number;
 }
 
-const TinderCardArray = ({index} : TinderCardArrayProps) => {
+const TinderCardArray = ({num} : TinderCardArrayProps) => {
 // async function TinderCardArray({num} : TinderCardArrayProps) {
   const eventsArray = ['history', 'hi']
   // const response = await fetch("https://api.connectionhub.me/events", {
@@ -17,9 +17,9 @@ const TinderCardArray = ({index} : TinderCardArrayProps) => {
 
   return (
     <div>
-      { index > eventsArray.length ? (    
+      { num < eventsArray.length ? (    
         eventsArray
-          .filter((_, index) => index === index)
+          .filter((_, index) => num === index)
           .map((event, index) => (
             <TinderCard key={index} name={event} />
         ))
