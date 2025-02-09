@@ -1,18 +1,17 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { ArrowLeft, Plus, Wand2 } from "lucide-react"
+import { ArrowLeft, Plus, CalendarIcon, Wand2 } from "lucide-react"
 import { format } from "date-fns"
 import { cn } from "@/lib/utils"
-import { CalendarIcon } from "lucide-react"
 import { Calendar as CalendarComponent } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { LearnMyUser } from "@/components/learn-my-user"
-import { EventTimeMatching } from "@/components/event-time-matching"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 
 interface EventCreationProps {
   onBack: () => void
@@ -22,6 +21,8 @@ export function EventCreation({ onBack }: EventCreationProps) {
   const [imageUrl, setImageUrl] = useState<string | null>(null)
   const [date, setDate] = useState<Date>()
   const [price, setPrice] = useState<string>("0")
+  const [showDialog, setShowDialog] = useState(false)
+  const router = useRouter()
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -36,8 +37,16 @@ export function EventCreation({ onBack }: EventCreationProps) {
     const parts = sanitizedValue.split(".")
     if (parts.length > 2) return
     if (parts[1]?.length > 2) return
-
     setPrice(sanitizedValue)
+  }
+
+  const handleSubmit = () => {
+    setShowDialog(true)
+  }
+
+  const handleConfirm = () => {
+    setShowDialog(false)
+    router.push("/discover")
   }
 
   return (
@@ -49,7 +58,7 @@ export function EventCreation({ onBack }: EventCreationProps) {
         </Button>
         <div className="flex gap-2">
           <Button variant="outline">Save</Button>
-          <Button>Publish</Button>
+          <Button onClick={handleSubmit}>Publish</Button>
         </div>
       </div>
 
@@ -58,8 +67,7 @@ export function EventCreation({ onBack }: EventCreationProps) {
         <div className="relative">
           {imageUrl ? (
             <div className="relative w-full h-[200px] bg-muted rounded-lg overflow-hidden">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={imageUrl || "/placeholder.svg"} alt="Event cover" className="w-full h-full object-cover" />
+              <img src={imageUrl} alt="Event cover" className="w-full h-full object-cover" />
               <Button className="absolute bottom-4 right-4" size="sm" onClick={() => setImageUrl(null)}>
                 Change
               </Button>
@@ -77,37 +85,28 @@ export function EventCreation({ onBack }: EventCreationProps) {
 
         {/* Title, Date, and Location */}
         <div className="space-y-4">
-          {/* Title Input */}
           <Input placeholder="Title" className="text-xl font-semibold" />
-
-          {/* Date and Time */}
           <div className="flex gap-4">
-            <div className="flex-1 relative">
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant={"outline"}
-                    className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {date ? format(date, "PPP") : <span>Pick a date</span>}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
-                  <CalendarComponent mode="single" selected={date} onSelect={setDate} initialFocus />
-                </PopoverContent>
-              </Popover>
-            </div>
-            <EventTimeMatching />
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="outline" className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}>
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {date ? format(date, "PPP") : <span>Pick a date</span>}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <CalendarComponent mode="single" selected={date} onSelect={setDate} initialFocus />
+              </PopoverContent>
+            </Popover>
+            <Button variant="outline" className="shrink-0">
+              <Wand2 className="h-4 w-4 mr-2" />
+              Choose for me
+            </Button>
           </div>
-
-          {/* Location */}
           <Input placeholder="Location" />
         </div>
 
-
-        <div className="space-y-4">
-          {/* Registration */}
+        {/* Registration */}
         <div className="space-y-2">
           <h3 className="text-lg font-semibold">Registration</h3>
           <div className="flex gap-4">
@@ -124,36 +123,39 @@ export function EventCreation({ onBack }: EventCreationProps) {
             <Input placeholder="Registration link" className="flex-1" />
           </div>
         </div>
-          {/* Price */}
-          <div className="flex items-center gap-4">
-            <span className="text-sm font-medium min-w-[60px]">Price</span>
-            <div className="flex-1 flex items-center gap-2">
-              <span className="text-sm">USD:</span>
-              <Input
-                type="text"
-                value={price}
-                onChange={(e) => handlePriceChange(e.target.value)}
-                className="max-w-[100px]"
-              />
-            </div>
-          </div>
 
-          {/* Who can join */}
-          <div className="flex items-center gap-4">
-            <span className="text-sm font-medium min-w-[60px]">Open to</span>
-            <div className="flex-1 flex items-center gap-2">
-              <Select defaultValue="all">
-                <SelectTrigger className="w-[200px]">
-                  <SelectValue placeholder="Who can join?" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">ALL</SelectItem>
-                  <SelectItem value="followers">Followers Only</SelectItem>
-                  <SelectItem value="private">Private</SelectItem>
-                </SelectContent>
-              </Select>
-                <LearnMyUser />
-            </div>
+        {/* Price */}
+        <div className="flex items-center gap-4">
+          <span className="text-sm font-medium min-w-[60px]">Price</span>
+          <div className="flex-1 flex items-center gap-2">
+            <span className="text-sm">USD:</span>
+            <Input
+              type="text"
+              value={price}
+              onChange={(e) => handlePriceChange(e.target.value)}
+              className="max-w-[100px]"
+            />
+          </div>
+        </div>
+
+        {/* Who can join */}
+        <div className="flex items-center gap-4">
+          <span className="text-sm font-medium min-w-[60px]">Open to</span>
+          <div className="flex-1 flex items-center gap-2">
+            <Select defaultValue="all">
+              <SelectTrigger className="w-[200px]">
+                <SelectValue placeholder="Who can join?" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">ALL</SelectItem>
+                <SelectItem value="followers">Followers Only</SelectItem>
+                <SelectItem value="private">Private</SelectItem>
+              </SelectContent>
+            </Select>
+            <Button variant="outline" className="shrink-0">
+              <Wand2 className="h-4 w-4 mr-2" />
+              Pick
+            </Button>
           </div>
         </div>
 
@@ -165,7 +167,7 @@ export function EventCreation({ onBack }: EventCreationProps) {
 
         {/* Also posted in */}
         <div className="space-y-2">
-          <h3 className="text-sm font-medium">Also posted in (optional)</h3>
+          <h3 className="text-sm font-medium">Also posted in</h3>
           <div className="space-y-2">
             {["Discord", "Instagram", "Facebook", "Other"].map((platform) => (
               <div key={platform} className="flex items-center gap-2">
@@ -178,9 +180,21 @@ export function EventCreation({ onBack }: EventCreationProps) {
       </form>
 
       <div className="flex items-center w-full">
-          <Button variant="outline" className="ml-auto">Save</Button>
+        <Button variant="outline" className="ml-auto">Save</Button>
       </div>
+
+      {/* Confirmation Dialog */}
+      <Dialog open={showDialog} onOpenChange={setShowDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Event Submitted</DialogTitle>
+          </DialogHeader>
+          <p>Your event has been successfully submitted!</p>
+          <DialogFooter>
+            <Button onClick={handleConfirm}>OK</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
-
