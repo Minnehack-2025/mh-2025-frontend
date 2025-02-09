@@ -1,14 +1,20 @@
 import React, { useEffect } from 'react'
 import TinderCard from "@/components/TinderCard";
+import { Button } from './ui/button';
 
 interface TinderCardArrayProps {
   eventsArray?: string[];
+  setNum: (num:number) => void;
   num: number;
 }
 
-const TinderCardArray = ({num} : TinderCardArrayProps) => {
+const TinderCardArray = ({num, setNum} : TinderCardArrayProps) => {
 // async function TinderCardArray({num} : TinderCardArrayProps) {
   const eventsArray = ['history', 'hi']
+
+  const handleEnd = () => {
+    setNum(0);
+  }
 
   useEffect(() => {
     const fetchData = async() => {
@@ -30,9 +36,12 @@ const TinderCardArray = ({num} : TinderCardArrayProps) => {
             <TinderCard key={index} name={event} />
         ))
         ) : (
-          <p className='text-center mx-auto'>
-            You reached the end!
-          </p>
+          <div className={`w-full h-full flex flex-col items-center py-[30vh] mb-3`}>
+            <p className="text-center pb-4">You&apos;ve reached the end!</p>
+            <Button onClick={handleEnd}>
+              Restart
+            </Button>
+          </div>
         )
       }
    </div>
