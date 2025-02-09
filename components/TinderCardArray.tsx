@@ -1,14 +1,22 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import TinderCard from "@/components/TinderCard";
+import { Button } from './ui/button';
+import { Event } from '../models/models';
 
 interface TinderCardArrayProps {
   eventsArray?: string[];
+  setNum: (num:number) => void;
   num: number;
 }
 
-const TinderCardArray = ({num } : TinderCardArrayProps) => { //onClick
+const TinderCardArray = ({num, setNum} : TinderCardArrayProps) => {
 // async function TinderCardArray({num} : TinderCardArrayProps) {
-  const eventsArray = ['history', 'hi']
+  // const eventsArray = ['history', 'hi']
+  const [eventsArray, setEventsArray] = useState<Event[]>([]);
+
+  const handleEnd = () => {
+    setNum(0);
+  }
 
   useEffect(() => {
     const fetchData = async() => {
@@ -16,23 +24,33 @@ const TinderCardArray = ({num } : TinderCardArrayProps) => { //onClick
         cache: "no-store",
       });
       const data = await response.json();
-      console.log(data);
+      setEventsArray(data);
     };
     fetchData();
   }, [])
-    
+
   return (
     <div>
       { num < eventsArray.length ? (    
         eventsArray
           .filter((_, index) => num === index)
           .map((event, index) => (
-            <TinderCard key={index} name={event} /> //onClick={onClick}
+            <TinderCard 
+              key={index} 
+              name={event.name} 
+              time={event.time} 
+              location={event.location} 
+              description={event.description}
+              image={event.image_id}
+            />
         ))
         ) : (
-          <p className='text-center mx-auto'>
-            You reached the end!
-          </p>
+          <div className={`w-full h-full flex flex-col items-center py-[30vh] mb-3`}>
+            <p className="text-center pb-4">You&apos;ve reached the end!</p>
+            <Button onClick={handleEnd}>
+              Restart
+            </Button>
+          </div>
         )
       }
    </div>
