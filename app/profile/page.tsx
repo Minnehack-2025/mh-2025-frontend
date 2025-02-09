@@ -3,10 +3,12 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+//import Profile from "@/components/profile"
 
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
+      {/* <Profile name="What is wrong" bio="Please stop"/> */}
       {/* Header */}
       <header className="bg-background border-b">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
