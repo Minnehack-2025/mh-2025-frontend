@@ -22,7 +22,7 @@ const sampleEvent = {
 
 export default function Page() {
   const [view, setView] = useState<View>("dashboard")
-  const [isHost] = useState(true) // You can manage this based on your auth logic
+  const [isHost] = useState(true) 
 
   const renderView = () => {
     switch (view) {
@@ -31,7 +31,7 @@ export default function Page() {
       case "detail":
         return <EventDetail isHost={isHost} event={sampleEvent} onBack={() => setView("dashboard")} />
       default:
-        return <EventLists  onEventClick={() => setView("detail")} /> //onCreateClick={() => setView("creation")}
+        return <EventLists onCreateClick={() => setView("creation")}  /> //onEventClick={handleEventClick}
     }
   }
 
