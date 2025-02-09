@@ -9,8 +9,8 @@ interface EventCardPrompts {
   friendsArray?: string;
 }
 
-const EventCard: React.FC<EventCardPrompts> = ( ) => {
-  const friendsArray = [Profile, Profile, Profile];
+const EventCard: React.FC<EventCardPrompts> = () => {
+  const friendsArray = [Profile, Profile, Profile]
 
   return (
     <div className='flex flex-col gap-2 w-[70vw] mx-auto'>
@@ -21,7 +21,6 @@ const EventCard: React.FC<EventCardPrompts> = ( ) => {
           <div className='w-8 h-8'>
             <Image src={Profile} alt="Profile Picture" className='rounded-full'></Image>
           </div>
-          <p>Name</p>
         </div>
 
         <div className='flex flex-row gap-2 m-2'>
@@ -48,7 +47,7 @@ const EventCard: React.FC<EventCardPrompts> = ( ) => {
         </div>
       </div>      
     </div>
-  )
+  );
 }
 
 export default EventCard;
