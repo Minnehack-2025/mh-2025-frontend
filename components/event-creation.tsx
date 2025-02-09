@@ -11,6 +11,8 @@ import { CalendarIcon } from "lucide-react"
 import { Calendar as CalendarComponent } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { LearnMyUser } from "@/components/learn-my-user"
+import { EventTimeMatching } from "@/components/event-time-matching"
 
 interface EventCreationProps {
   onBack: () => void
@@ -96,10 +98,7 @@ export function EventCreation({ onBack }: EventCreationProps) {
                 </PopoverContent>
               </Popover>
             </div>
-            <Button variant="outline" className="shrink-0">
-              <Wand2 className="h-4 w-4 mr-2" />
-              Choose for me
-            </Button>
+            <EventTimeMatching />
           </div>
 
           {/* Location */}
@@ -153,10 +152,7 @@ export function EventCreation({ onBack }: EventCreationProps) {
                   <SelectItem value="private">Private</SelectItem>
                 </SelectContent>
               </Select>
-              <Button variant="outline" className="shrink-0">
-                <Wand2 className="h-4 w-4 mr-2" />
-                Pick
-              </Button>
+                <LearnMyUser />
             </div>
           </div>
         </div>
@@ -169,7 +165,7 @@ export function EventCreation({ onBack }: EventCreationProps) {
 
         {/* Also posted in */}
         <div className="space-y-2">
-          <h3 className="text-sm font-medium">Also posted in</h3>
+          <h3 className="text-sm font-medium">Also posted in (optional)</h3>
           <div className="space-y-2">
             {["Discord", "Instagram", "Facebook", "Other"].map((platform) => (
               <div key={platform} className="flex items-center gap-2">
